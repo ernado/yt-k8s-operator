@@ -109,5 +109,5 @@ spec:
       instanceCount: 1
 
   ui:
-    serviceType: NodePort
+    serviceType: ClusterIP
     instanceCount: 1

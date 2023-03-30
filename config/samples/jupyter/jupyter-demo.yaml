@@ -5,25 +5,12 @@ metadata:
   labels:
     name: jupyterlab
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: 8888
       protocol: TCP
       name: http
-  selector:
-    name: jupyterlab
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: jupyterlab-headless
-  labels:
-    name: jupyterlab
-spec:
-  type: ClusterIP
-  clusterIP: None
   selector:
     name: jupyterlab
 
@@ -47,7 +34,7 @@ spec:
     spec:
       containers:
         - name: jupyterlab
-          image: ytsaurus/jupyter-tutorial:0.0.23
+          image: ytsaurus/jupyter-tutorial:0.0.26-metrika
           env:
             - name: JUPYTER_TOKEN
               valueFrom:
@@ -60,11 +47,11 @@ spec:
                   name: ytadminsec
                   key: token
             - name: YT_PROXY
-              value: http-proxies-lb.default.svc.cluster.local
+              value: http-proxies-lb.yt.svc.cluster.local
             - name: CHYT_CTL_ADDRESS
-              value: chyt.default.svc.cluster.local
+              value: chyt.yt.svc.cluster.local
             - name: YT_UI_URL
-              value: https://my-ip:port/ytdemo
+              value: https://yt.go-faster.org
           command:
             - /bin/bash
             - -c
